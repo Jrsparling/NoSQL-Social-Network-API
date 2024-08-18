@@ -6,8 +6,6 @@ friend is just another user
 tags is reactions 
 
 todo:
-Controllers - thought, user
-Models - tag, thought, user
+Controllers - thought
 Utils - seed, data
-db???
 

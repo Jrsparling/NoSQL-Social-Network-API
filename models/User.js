@@ -14,33 +14,36 @@ const userSchema = new Schema(
         unique: true,
         required: true,
         trim: true,
-        match:[]
-        // two elements 
-        // what el do i need to match regex
-        // what message displays with bad email
+        validate: [validateEmail, 'Please fill a valid email address'],
+        match:[/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/],
+        
     },
-    // thoughts
-        // 
-    // friends
+    thoughts: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'thought',
+        }
+        ],
+    friends: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'friends',
+        }
+        ]
     },
     {
-
+        toJSON: {
+            virtuals:true,
+        },
+        id: false,
     }
-)
-// username
-// String
-// Unique
-// Required
-// Trimmed
+);
+userSchema
+.virtual('friendCount')
+.get(function () {
+    return this.friends.length;
+})
 
-// email
-// String
-// Required
-// Unique
-// Must match a valid email address (look into Mongoose's matching validation)
-// thoughts
+const User = model('user', userSchema);
 
-// Array of _id values referencing the Thought model
-// friends
-
-// Array of _id values referencing the User model (self-reference)
+module.exports = User;
