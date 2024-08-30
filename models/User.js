@@ -14,20 +14,23 @@ const userSchema = new Schema(
         unique: true,
         required: true,
         trim: true,
-        validate: [validateEmail, 'Please fill a valid email address'],
-        match:[/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/],
-        
+        validate: {
+            validator: (email) => {
+                return /^([a-z0-9_\.]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/.test(email);
+            },
+            message: 'Failed email validation'
+        }  
     },
     thoughts: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'thought',
+            ref: 'Thought',
         }
         ],
     friends: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'friends',
+            ref: 'Friends',
         }
         ]
     },

@@ -36,8 +36,8 @@ module.exports = {
             }
             
             const userData = await User.findOneAndUpdate(
-                { userId: req.params.userId },
-                { $push: { thought: { thought: Thought.thoughtText }}},
+                { _id: req.body.userId },
+                { $push: { thoughts: thoughtData._id}},
                 { runValidators: true, new: true },
             );
 
@@ -54,7 +54,7 @@ module.exports = {
         try {
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
-                { $set: { thoughtText: req.body.thoughtText, username} },
+                { $set: {...req.body} },
                 { runValidators: true, new: true }
             );
             if (!thought) {
